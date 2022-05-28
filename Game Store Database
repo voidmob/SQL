@@ -1,0 +1,37 @@
+-- Create a video game store inventory database
+
+CREATE TABLE game_store(
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    price INTEGER,
+    rating INTEGER,
+    condition TEXT);
+
+INSERT INTO game_store VALUES (1, 'God of War', 30, 8.5, 'NEW');
+INSERT INTO game_store VALUES (2, 'Fire Emblem', 40, 8, 'NEW');
+INSERT INTO game_store VALUES (3, 'Big Game Hunter', 15, 4, 'USED');
+INSERT INTO game_store VALUES (4, 'Call of Duty: MW', 60, 6, 'NEW');
+INSERT INTO game_store VALUES (5, 'The Legend of Zelda: Breath of the Wild', 30, 8, 'NEW');
+INSERT INTO game_store VALUES (6, 'Xenoblade Chronicles', 50, 9, 'NEW');
+INSERT INTO game_store VALUES (7, 'Pokemon Ruby', 50, 9, 'USED');
+INSERT INTO game_store VALUES (8, 'The Last of Us', 35, 9, 'NEW');
+INSERT INTO game_store VALUES (9, 'Hollow Knight', 30, 8, 'NEW');
+INSERT INTO game_store VALUES (10, 'Call of Duty: Cold War', 40, 3, 'NEW');
+INSERT INTO game_store VALUES (11, 'Banjo-KAZOOIE', 20, 8, 'USED');
+INSERT INTO game_store VALUES (12, 'STAR WARS JEDI: Fallen ORDER', 10, 7, 'USED');
+INSERT INTO game_store VALUES (13, 'Horizon: Forbidden West', 70, 7, 'NEW');
+INSERT INTO game_store VALUES (14, 'RESIDENT EVIL 8', 45, 6.2, 'NEW');
+INSERT INTO game_store VALUES (15, 'Dragon Quest: XI', 25, 10, 'NEW');
+
+--Displays the entire inventory
+SELECT *
+FROM game_store
+ORDER BY price DESC;
+
+--displays the total amount of the inventory
+SELECT SUM(price)
+FROM game_store;
+
+--displays the highest rated game in the store
+SELECT id, name, MAX(rating)
+FROM game_store;

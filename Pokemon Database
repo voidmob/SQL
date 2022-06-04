@@ -815,10 +815,12 @@ INSERT INTO pokemon(Number,Name,Type_1,Type_2,Total,HP,Attack,Defense,Sp_Atk,Sp_
 INSERT INTO pokemon(Number,Name,Type_1,Type_2,Total,HP,Attack,Defense,Sp_Atk,Sp_Def,Speed,Generation,Legendary) VALUES (720,'HoopaHoopa Unbound','Psychic','Dark',680,80,160,60,170,130,80,6,'True');
 INSERT INTO pokemon(Number,Name,Type_1,Type_2,Total,HP,Attack,Defense,Sp_Atk,Sp_Def,Speed,Generation,Legendary) VALUES (721,'Volcanion','Fire','Water',600,80,110,120,130,90,70,6,'True');
 
+Displays only Legendary status pokemon
 SELECT Number, Name FROM pokemon
     WHERE Legendary = 'True'
     ORDER BY Number;
 
+-- Displays the pokemon by their generation using a CASE statement
 SELECT Name, Number,
     CASE
     WHEN Number <= 151 THEN 'Gen 1'
@@ -830,9 +832,11 @@ SELECT Name, Number,
     END AS Pokemon_Generations
 From pokemon;
 
+-- Displays the pokemon with the highest base attack power
 SELECT Number, Name, MAX(Attack)
 FROM pokemon;
 
+-- Displays and calculates the total stats of the pokemon and catagorizes them by their overall stats
 Select Number, Name, SUM(HP + Attack + Defense + Sp_Atk + Sp_Def + Speed) AS TOTAL,
     CASE
     WHEN SUM(HP + Attack + Defense + Sp_Atk + Sp_Def + Speed) > 570 THEN 'Legendary Stats'
@@ -843,16 +847,19 @@ Select Number, Name, SUM(HP + Attack + Defense + Sp_Atk + Sp_Def + Speed) AS TOT
 From pokemon
 GROUP BY Number;
 
+-- Displays the pokemon that are a single type
 SELECT Number, Name, Type_1, Type_2
 FROM pokemon
 Group By Number
 Having Type_2 IS NULL;
 
+-- Displays the pokemon that are a dual type
 SELECT Number, Name, Type_1, Type_2
 FROM pokemon
 Group By Number
 Having Type_2 IS NOT NULL;
 
+-- Displays the only pokemon with a this specific dual typing
 SELECT Number, Name, Type_1, Type_2
 FROM pokemon
 WHERE Type_1 = 'Dragon' AND Type_2 = 'Fairy';

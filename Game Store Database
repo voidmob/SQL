@@ -21,14 +21,14 @@ INSERT INTO game_store VALUES (11, 'Banjo-KAZOOIE', 20, 8, 'USED');
 INSERT INTO game_store VALUES (12, 'STAR WARS JEDI: Fallen ORDER', 10, 7, 'USED');
 INSERT INTO game_store VALUES (13, 'Horizon: Forbidden West', 70, 7, 'NEW');
 INSERT INTO game_store VALUES (14, 'RESIDENT EVIL 8', 45, 6.2, 'NEW');
-INSERT INTO game_store VALUES (15, 'Dragon Quest: XI', 25, 10, 'NEW');
+INSERT INTO game_store VALUES (15, 'Dragon Quest: XI S Echoes of an Elusive Age', 25, 10, 'NEW');
 
---Displays the entire inventory
+--Displays the entire inventory by descending price
 SELECT *
 FROM game_store
 ORDER BY price DESC;
 
---displays the total amount of the inventory
+--displays the total price amount of the inventory
 SELECT SUM(price)
 FROM game_store;
 

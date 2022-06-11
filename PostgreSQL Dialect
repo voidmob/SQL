@@ -1,0 +1,44 @@
+-- Joins datasets in PostgreSQL Dialect
+SELECT
+people.show_id,
+people.director,
+titles.type,
+titles.title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id = titles.show_id;
+
+-- Counts the total number of Movies in the dataset
+SELECT 
+count(*)
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type = 'Movie';
+
+-- Displays the most recently added movie
+SELECT
+MAX(DATE(date_added))
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info";
+
+-- Displays the movie titles in alphabetical order
+SELECT
+title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+ORDER BY title ASC;
+
+-- Joins the datasets together and displays the director of the Movie Bright Star
+SELECT
+people.director,
+titles.title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id = titles.show_id
+WHERE title = 'Bright Star';
+
+-- Shows the oldest movie in the dataset
+SELECT
+title,
+MIN(release_year)
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+GROUP BY title
+ORDER BY MIN(release_year)
+LIMIT 1;

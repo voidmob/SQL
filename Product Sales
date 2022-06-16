@@ -1,0 +1,40 @@
+-- Gathering column names
+SELECT * FROM BIT_DB.customers LIMIT 20;
+SELECT * FROM BIT_DB.JanSales LIMIT 20;
+
+-- Showing the amount of orders that was placed in January
+SELECT COUNT(orderID) 
+FROM BIT_DB.JanSales;
+
+-- Showing the sales that were made in January for an iPhone only
+SELECT *
+FROM BIT_DB.JanSales
+WHERE Product = 'iPhone';
+
+-- Join to show the account numbers that placed an order in Febuary
+SELECT FebSales.orderID, customers.acctnum
+FROM FebSales
+JOIN customers
+ON FebSales.orderID = customers.order_id;
+
+-- Shows the lowest priced item that was sold in January
+SELECT DISTINCT Product, MIN(price)
+FROM JanSales;
+
+-- Shows the amount of Revenue that was made in January
+SELECT SUM(quantity)*price AS Revenue, product
+FROM JanSales
+GROUP BY Product;
+
+-- Shows the product, number of items purchased, and the amount of revenue from a specific address
+SELECT Product, quantity, SUM(quantity)*price AS Revenue
+FROM FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY Product;
+
+-- Shows the number of accounts that ordered 2 or more items and the average revenue earned
+SELECT COUNT(customers.acctnum), AVG(quantity)*price
+FROM FebSales
+JOIN customers
+ON FebSales.orderID = customers.order_id
+WHERE quantity > 2;

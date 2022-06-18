@@ -17,24 +17,62 @@ FROM FebSales
 JOIN customers
 ON FebSales.orderID = customers.order_id;
 
--- Shows the lowest priced item that was sold in January
+-- Displays the lowest priced item that was sold in January
 SELECT DISTINCT Product, MIN(price)
 FROM JanSales;
 
--- Shows the amount of Revenue that was made in January
+-- Displays the amount of Revenue that was made in January
 SELECT SUM(quantity)*price AS Revenue, product
 FROM JanSales
 GROUP BY Product;
 
--- Shows the product, number of items purchased, and the amount of revenue from a specific address
+-- Displays the product, number of items purchased, and the amount of revenue from a specific address
 SELECT Product, quantity, SUM(quantity)*price AS Revenue
 FROM FebSales
 WHERE location = '548 Lincoln St, Seattle, WA 98101'
 GROUP BY Product;
 
--- Shows the number of accounts that ordered 2 or more items and the average revenue earned
+-- Displays the number of accounts that ordered 2 or more items and the average revenue earned
 SELECT COUNT(customers.acctnum), AVG(quantity)*price
 FROM FebSales
 JOIN customers
 ON FebSales.orderID = customers.order_id
 WHERE quantity > 2;
+
+-- Displays the product quantity for orders placed in Los angeles
+SELECT Product, SUM(Quantity)
+FROM FebSales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY Product;
+
+-- Displays the locations in New York that ordered 3 or more items
+SELECT DISTINCT location, COUNT(orderID)
+FROM JanSales
+WHERE location LIKE '%NY%'
+GROUP BY location
+HAVING COUNT(orderID) > 2;
+
+-- Displays the amount and type of Headphones that were sold in February
+SELECT Product, SUM(Quantity)
+FROM FebSales
+WHERE Product LIKE '%Headphones%'
+GROUP BY Product;
+
+-- Displays the average amount spent per account in February
+SELECT SUM(Quantity*price)/count(customers.acctnum)
+FROM FebSales
+LEFT JOIN customers
+ON FebSales.orderID = customers.order_id;
+
+-- Displays the average quantity purchased per account in February
+SELECT SUM(Quantity)/COUNT(customers.acctnum)
+FROM FebSales
+LEFT JOIN customers
+ON FebSales.orderID = customers.order_id;
+
+-- Displays the product that brought in the most Revenue in January
+SELECT SUM(Quantity * Price) AS Revenue, Product
+FROM JanSales
+GROUP BY Product
+ORDER BY Revenue DESC
+LIMIT 1;

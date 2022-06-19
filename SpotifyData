@@ -1,0 +1,46 @@
+-- Data and Column Info
+SELECT * FROM Spotifydata;
+
+-- Displays how many times the artist appears in the top 50 and orders them my most to least appearences
+SELECT COUNT(*), artist_name
+From Spotifydata
+GROUP BY artist_name
+ORDER BY COUNT(*) DESC;
+
+-- Displays the most popular artist in descending order
+SELECT popularity, artist_name, track_name
+FROM Spotifydata
+ORDER BY popularity DESC;
+
+-- Displays the most feelgood track on the list
+SELECT (energy+liveness+valence+danceability) AS Hype_track, artist_name, track_name
+FROM Spotifydata
+ORDER BY Hype_track DESC;
+
+-- Displays the key and the mood of the track by using two different CASE statements
+SELECT artist_name, track_name,
+    CASE
+    WHEN key = 1 THEN 'C#'
+    WHEN key = 2 THEN 'D'
+    WHEN key = 3 THEN 'D#'
+    WHEN key = 4 THEN 'E'
+    WHEN key = 5 THEN 'F'
+    WHEN key = 6 THEN 'F#'
+    WHEN key = 7 THEN 'G'
+    WHEN key = 8 THEN 'G#'
+    WHEN key = 9 THEN 'A'
+    WHEN key = 10 THEN 'A#'
+    WHEN key = 11 THEN 'B'
+    ELSE 'C'
+    END AS KEY,
+        CASE
+    WHEN Mode = 0 THEN 'Minor'
+    ELSE 'Major'
+    END AS Mood
+FROM Spotifydata
+ORDER BY KEY;
+
+-- Displays the average popularity, liveness, tempo, and danceability across all songs on the list
+SELECT artist_name, track_name, AVG(popularity), AVG(liveness), AVG(tempo), AVG(danceability)
+FROM Spotifydata
+GROUP BY artist_name;

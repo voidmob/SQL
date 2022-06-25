@@ -1,0 +1,127 @@
+-- Displays customers who don't live in the US
+SELECT FirstName, CustomerId, Country
+FROM customers
+WHERE Country != 'USA';
+
+-- Displays all customers who live in Brazil
+SELECT *
+FROM customers
+WHERE Country = 'Brazil';
+
+-- Displays Name, invoice number and date for customers from Brazil
+SELECT FirstName, LastName, InvoiceId, InvoiceDate, BillingCountry
+FROM customers
+JOIN invoices
+ON customers.CustomerId = invoices.CustomerId
+WHERE BillingCounty = 'Brazil';
+
+-- Displays employees whose job title is Sales Support Agent
+SELECT *
+FROM employees
+WHERE title = 'Sales Support Agent';
+
+-- Displays the unique countries who have placed an order
+SELECT DISTINCT BillingCountry
+FROM invoices;
+
+-- Displays invoices associated with each Sales Agent
+SELECT FirstName, LastName, invoiceId
+FROM employees
+JOIN customers
+ON employees.EmployeeId = customers.SupportRepId
+JOIN invoices
+ON invoices.CustomerId = customers.CustomerId;
+
+-- Displays the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers
+SELECT total, customers.FirstName, customers.LastName, customers.country, employees.FirstName, employees.LastName
+FROM invoices
+JOIN customers
+ON invoices.CustomerId = customers.CustomerId
+JOIN employees
+ON customers.SupportRepId = employees.employeeid;
+
+-- Displays the amount of invoices made in 2009
+SELECT count(*)
+FROM invoices
+WHERE invoicedate LIKE '%2009%';
+
+-- Displays total sales made in 2009
+SELECT SUM(total)
+FROM invoices
+WHERE invoicedate LIKE '%2009%';
+
+-- Displays the invoice line item and the track name
+SELECT tracks.Name, items.InvoiceLineId
+FROM chinook.Invoice_items items
+JOIN chinook.Tracks tracks
+ON items.TrackId = tracks.TrackId;
+
+-- Displays the track name and artist name with the invoice line id
+SELECT tracks.Name, artists.name, items.InvoiceLineId
+FROM chinook.Invoice_items items
+JOIN chinook.Tracks tracks
+ON items.TrackId = tracks.TrackId
+JOIN chinook.albums
+ON albums.AlbumId = tracks.AlbumId
+JOIN chinook.artists
+ON artists.ArtistId = albums.ArtistId;
+
+-- Displays the track name and composer of the track
+SELECT tracks.Name, tracks.Composer, items.InvoiceLineId
+FROM chinook.Invoice_items items
+JOIN chinook.Tracks tracks
+ON items.TrackId = tracks.TrackId;
+
+-- Displays all tracks, album name, genre name and the type of media used
+SELECT tracks.name, albums.title, genres.Name, media_types.Name
+FROM chinook.tracks
+JOIN albums
+ON tracks.AlbumId = albums.AlbumId
+JOIN genres
+ON genres.GenreId = tracks.GenreId
+JOIN media_types
+ON media_types.MediaTypeId = tracks.MediaTypeId;
+
+-- Displays the total sales made by each sales agent
+SELECT ROUND(SUM(total), 2), employees.FirstName, employees.LastName
+FROM employees
+JOIN customers
+ON employees.EmployeeId = customers.SupportRepId
+JOIN invoices
+ON customers.CustomerId = invoices.customerid
+GROUP BY employees.FirstName;
+
+-- Displays which sales agent made the most sales in 2009
+SELECT ROUND(SUM(total), 2), employees.FirstName, employees.LastName
+FROM employees
+JOIN customers
+ON employees.EmployeeId = customers.SupportRepId
+JOIN invoices
+ON customers.CustomerId = invoices.customerid
+WHERE employees.Title = 'Sales Support Agent' and invoices.invoicedate LIKE '%2009%'
+GROUP BY employees.FirstName
+ORDER BY ROUND(SUM(total), 2) DESC 
+LIMIT 1;
+
+-- Displays the playlists that only consist of rock music
+SELECT genres.Name, playlists.name, tracks.name as TrackName
+FROM tracks
+JOIN genres
+ON genres.GenreId = tracks.GenreId
+JOIN playlist_track
+ON playlist_track.TrackId = tracks.TrackId
+JOIN playlists
+ON playlists.playlistId = playlist_track.PlaylistId
+WHERE genres.name = 'Rock'
+ORDER BY playlists.Name;
+
+-- Displays the unique artists and the amount of times they show up
+SELECT DISTINCT artists.name, COUNT(artists.name)
+FROM artists
+JOIN albums
+ON artists.ArtistId = albums.ArtistId
+JOIN tracks
+ON albums.albumId = tracks.AlbumId
+JOIN invoice_items
+ON tracks.TrackId = invoice_items.TrackId
+GROUP BY artists.Name;
